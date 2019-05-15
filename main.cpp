@@ -32,7 +32,7 @@ void GameRunner::switch_turn() {
 players GameRunner::is_winner() { return this->state.winner(); }
 
 bool GameRunner::game_ended() {
-  return turn == this->state.winner() || this->state.board_full();
+  return NO_ONE != this->state.winner() || this->state.board_full();
 }
 
 char GameRunner::get_turn() { return turn == PLAYER_1 ? 'X' : 'O'; }
@@ -40,8 +40,13 @@ char GameRunner::get_turn() { return turn == PLAYER_1 ? 'X' : 'O'; }
 void GameRunner::print_state() { this->state.print_state(); }
 
 void GameRunner::make_move(int x, int y) {
+  if (x > 2 || y > 2) {
+    throw new out_of_range("x and y have to be between 0 - 2");
+  }
+
   if (!this->state.empty_tile(x, y)) {
-    throw "Can't make a move on a non-empty tile";
+    throw new invalid_argument(
+        "Cannot make a move where a move has already been made.");
   }
 
   state.move(x, y, this->turn);
@@ -55,13 +60,11 @@ int main() {
   runner.make_move(1, 1);
   runner.make_move(1, 2);
   runner.print_state();
-  cout << runner.game_ended() << '\n';
 
   string input;
 
   // for debugging use only
   while (!runner.game_ended()) {
-    cout << 'X' << " Wins!\n";
     printf("%c's Turn:\n", runner.get_turn());
     getline(cin, input);
 
@@ -69,20 +72,25 @@ int main() {
     int x = input[0] - '0';
     int y = input[1] - '0';
 
-    runner.make_move(x, y);
+    try {
+      runner.make_move(x, y);
+    } catch (invalid_argument *e) {
+      cout << e->what() << endl;
+    } catch (out_of_range *e) {
+      cout << e->what() << endl;
+    }
+
     runner.print_state();
   }
 
-  string fmt = "%c Wins!";
-
   switch (runner.is_winner()) {
     case PLAYER_1:
-      cout << 'X' << " Wins!\n";
+      cout << 'X' << " Wins!" << endl;
       break;
     case PLAYER_2:
-      cout << 'O' << " Wins!\n";
+      cout << 'O' << " Wins!" << endl;
       break;
-    default:
-      cout << "TIE GAME\n";
+    case NO_ONE:
+      cout << "TIE GAME" << endl;
   }
 }
