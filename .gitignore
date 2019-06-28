@@ -31,5 +31,9 @@
 *.out
 *.app
 
+# debugging?
+*.dSYM
+
 # vscode
 *.vscode
+

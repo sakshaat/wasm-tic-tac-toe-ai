@@ -1,9 +1,11 @@
 #include <array>
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
 enum players { PLAYER_1, PLAYER_2, NO_ONE };
+enum actor { PLAYER, AI };
 
 class GameState {
  private:
