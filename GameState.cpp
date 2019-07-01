@@ -6,15 +6,29 @@ GameState::GameState() {
     empty_board[i].fill(NO_ONE);
   }
   state = empty_board;
-  empty_spots = 0;
+  empty_spots = 9;
+}
+
+GameState::GameState(const GameState &other) {
+  this->state = other.state;
+  this->empty_spots = other.empty_spots;
 }
 
 void GameState::move(int x, int y, players t) {
-  this->state[x][y] = t;
-  empty_spots++;
+  if (x > 2 || y > 2) {
+    throw new out_of_range("x and y have to be between 0 - 2");
+  }
+
+  if (!this->empty_tile(y, x)) {
+    throw new invalid_argument(
+        "Cannot make a move where a move has already been made.");
+  }
+
+  this->state[y][x] = t;
+  empty_spots--;
 }
 
-bool GameState::board_full() { return this->empty_spots == 9; }
+bool GameState::board_full() { return this->empty_spots == 0; }
 
 players GameState::winner() {
   // horizontal
@@ -29,11 +43,11 @@ players GameState::winner() {
   }
 
   // vertical
-  for (int i = 0; i < 3; i++) {
-    bool result = state[0][i] != NO_ONE && state[0][i] == state[1][i] &&
-                  state[0][i] == state[2][i];
+  for (int j = 0; j < 3; j++) {
+    bool result = state[0][j] != NO_ONE && state[0][j] == state[1][j] &&
+                  state[0][j] == state[2][j];
     if (result) {
-      return state[0][i];
+      return state[0][j];
     }
   }
 
@@ -74,4 +88,21 @@ void GameState::print_state() {
     }
     cout << '\n';
   }
+}
+
+vector<pair<int, int>> GameState::get_empty_tiles() {
+  if (this->board_full()) {
+    return vector<pair<int, int>>();
+  }
+
+  vector<pair<int, int>> result;
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (this->state[j][i] == NO_ONE) {
+        result.push_back(make_pair(i, j));
+      }
+    }
+  }
+
+  return result;
 }

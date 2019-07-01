@@ -1,6 +1,7 @@
 #include <array>
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -14,9 +15,12 @@ class GameState {
 
  public:
   GameState();
+  GameState(const GameState &other);
   void print_state();
+
   bool empty_tile(int x, int y);
   players winner();
   void move(int x, int y, players t);
   bool board_full();
+  vector<pair<int, int>> get_empty_tiles();
 };

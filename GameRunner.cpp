@@ -1,27 +1,32 @@
-
-#include "GameState.h"
+#include "GameTree.h"
 
 class GameRunner {
  private:
   GameState state;
   players turn;
   array<actor, 2> actors;
+  Node head;
 
  public:
   void make_move(int x, int y);
   void print_state();
   void switch_turn();
-  players winner();
   bool game_ended();
   char get_current_turn();
   void run();
+  pair<int, int> calculate_ai_move();
   pair<int, int> get_next_move();
+  players winner();
   GameRunner(actor player1, actor player2);
 };
 
 GameRunner::GameRunner(actor player1, actor player2) {
   state = GameState();
   turn = PLAYER_1;
+  cout << "Building tree" << endl;
+  // maintain the current state
+  this->head = Node(state, turn);
+  cout << "Tree built." << endl;
   actors = {player1, player2};
 }
 
@@ -40,15 +45,6 @@ char GameRunner::get_current_turn() { return turn; }
 void GameRunner::print_state() { this->state.print_state(); }
 
 void GameRunner::make_move(int x, int y) {
-  if (x > 2 || y > 2) {
-    throw new out_of_range("x and y have to be between 0 - 2");
-  }
-
-  if (!this->state.empty_tile(x, y)) {
-    throw new invalid_argument(
-        "Cannot make a move where a move has already been made.");
-  }
-
   state.move(x, y, this->turn);
   this->switch_turn();
 }
@@ -56,23 +52,40 @@ void GameRunner::make_move(int x, int y) {
 pair<int, int> get_user_input() {
   string input;
   getline(cin, input);
+  return make_pair(input[0] - '0', input[1] - '0');
+}
 
-  // converting to int
-  int x = input[0] - '0';
-  int y = input[1] - '0';
+pair<int, int> GameRunner::calculate_ai_move() {
+  // make current node
+  Node node = Node(this->state, this->turn);
+  node.print_state();
 
-  return make_pair(x, y);
+  // debug
+  // vector<Node> children = node.get_children();
+  // for (size_t i = 0; i < children.size(); i++) {
+  //   pair<int, int> move = children[i].get_move();
+  //   cout << "move is (" << move.first << ", " << move.second << ")" << endl;
+  //   cout << "score is " << children[i].get_score() << endl;
+  //   children[i].print_state();
+  // }
+
+  // get best child
+  pair<int, int> next_move = node.get_best_child().get_move();
+
+  // debug
+  // cout << "selected pair is (" << next_move.first << ", " << next_move.second
+  //      << ")" << endl;
+
+  return next_move;
 }
 
 pair<int, int> GameRunner::get_next_move() {
   int i = this->turn == PLAYER_1 ? 0 : 1;
-  cout << "TURN IS " << i << "ACTOR IS" << actors[i];
   switch (this->actors[i]) {
     case PLAYER:
       return get_user_input();
     case AI:
-      // TO DO
-      throw new invalid_argument("Not Implemented");
+      return calculate_ai_move();
     default:
       throw new invalid_argument("Unknown Error");
   }
@@ -100,12 +113,15 @@ void GameRunner::run() {
 }
 
 int main() {
-  GameRunner runner = GameRunner(AI, PLAYER);
+  GameRunner runner = GameRunner(AI, AI);
   // testing
-  runner.make_move(0, 0);
-  runner.make_move(2, 0);
-  runner.make_move(1, 1);
-  runner.make_move(1, 2);
+  // runner.make_move(2, 0);
+  // runner.make_move(1, 0);
+  // runner.make_move(1, 2);
+  // runner.make_move(0, 1);
+  // runner.make_move(0, 2);
+  // runner.make_move(2, 2);
+  // runner.make_move(2, 1);
   runner.print_state();
 
   // run 2 player game
