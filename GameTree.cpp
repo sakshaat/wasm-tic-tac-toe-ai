@@ -1,28 +1,27 @@
 #include "GameTree.h"
-#include <unordered_map>
 
 Node::Node(GameState state, players turn) {
   this->state = state;
   this->player = turn;
   this->is_max = turn == PLAYER_1;
+  this->best_child = new Node();
 
   if (state.winner() == PLAYER_1) {
-    this->score = 1;
+    this->score = 10;
   } else if (state.winner() == PLAYER_2) {
-    this->score = -1;
+    this->score = -10;
   } else if (state.board_full()) {
     this->score = 0;
   } else {
-    // generate its children
-    generate_children();
-    vector<Node> children_lst = get_children();
+    this->children = generate_children();
+
     if (is_max) {
       this->best_child =
-          &(*max_element(children_lst.begin(), children_lst.end()));
+          max_element(this->children.begin(), this->children.end()).base();
 
     } else {
       this->best_child =
-          &(*min_element(children_lst.begin(), children_lst.end()));
+          min_element(this->children.begin(), this->children.end()).base();
     }
     this->score = (this->best_child)->score;
   }
@@ -40,14 +39,13 @@ void Node::print_state() { this->state.print_state(); }
 
 int Node::get_score() { return this->score; };
 
-void Node::generate_children() {
+vector<Node> Node::generate_children() {
   vector<pair<int, int>> moves = this->state.get_empty_tiles();
   if (moves.size() == 0) {
-    return;
+    return {};
   }
 
-  Node* best_so_far = NULL;
-
+  vector<Node> result;
   for (size_t i = 0; i < moves.size(); i++) {
     // copy current state
     GameState child = this->state;
@@ -57,22 +55,7 @@ void Node::generate_children() {
 
     // need this to be able to retrieve it later
     node.set_move(make_pair(moves[i].first, moves[i].second));
-    this->children[moves[i]] = node;
-
-    // also want to keep track of the best node here
-    if (best_so_far == NULL) {
-      *best_so_far = node;
-    } else {
-      if (this->is_max) {
-        if (node.get_score() > (*best_so_far).get_score()) {
-          *best_so_far = node;
-        }
-      } else {
-        if (node.get_score() < (*best_so_far).get_score()) {
-          *best_so_far = node;
-        }
-      }
-    }
+    result.push_back(node);
   }
-  this->best_child = best_so_far;
+  return result;
 }

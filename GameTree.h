@@ -6,8 +6,8 @@ class Node {
  private:
   GameState state;
   players player;
-  unordered_map<pair<int, int>, Node> children;
-  void generate_children();
+  vector<Node> children;
+  vector<Node> generate_children();
   Node* best_child;
   pair<int, int> move;
   int score;

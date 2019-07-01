@@ -23,10 +23,13 @@ class GameRunner {
 GameRunner::GameRunner(actor player1, actor player2) {
   state = GameState();
   turn = PLAYER_1;
-  cout << "Building tree" << endl;
-  // maintain the current state
-  this->head = Node(state, turn);
-  cout << "Tree built." << endl;
+
+  // TODO Optimization
+  // cout << "Building tree" << endl;
+  // maintain the current state to reduce work
+  // this->head = Node(state, turn);
+  // cout << "Tree built." << endl;
+
   actors = {player1, player2};
 }
 
@@ -61,20 +64,20 @@ pair<int, int> GameRunner::calculate_ai_move() {
   node.print_state();
 
   // debug
-  // vector<Node> children = node.get_children();
-  // for (size_t i = 0; i < children.size(); i++) {
-  //   pair<int, int> move = children[i].get_move();
-  //   cout << "move is (" << move.first << ", " << move.second << ")" << endl;
-  //   cout << "score is " << children[i].get_score() << endl;
-  //   children[i].print_state();
-  // }
+  vector<Node> children = node.get_children();
+  for (size_t i = 0; i < children.size(); i++) {
+    pair<int, int> move = children[i].get_move();
+    cout << "move is (" << move.first << ", " << move.second << ")" << endl;
+    cout << "score is " << children[i].get_score() << endl;
+    children[i].print_state();
+  }
 
   // get best child
   pair<int, int> next_move = node.get_best_child().get_move();
 
   // debug
-  // cout << "selected pair is (" << next_move.first << ", " << next_move.second
-  //      << ")" << endl;
+  cout << "selected pair is (" << next_move.first << ", " << next_move.second
+       << ")" << endl;
 
   return next_move;
 }
@@ -116,9 +119,10 @@ int main() {
   GameRunner runner = GameRunner(AI, AI);
   // testing
   // runner.make_move(2, 0);
-  // runner.make_move(1, 0);
+  // runner.make_move(0, 0);
   // runner.make_move(1, 2);
   // runner.make_move(0, 1);
+  // runner.make_move(1, 1);
   // runner.make_move(0, 2);
   // runner.make_move(2, 2);
   // runner.make_move(2, 1);
