@@ -9,7 +9,7 @@ using namespace std;
 class Node {
  private:
   GameState state;
-  players player;
+  player turn;
   vector<Node> children;
   vector<Node> generate_children();
   Node* best_child;
@@ -21,7 +21,7 @@ class Node {
   int get_score();
 
  public:
-  Node(GameState state, players turn);
+  Node(GameState state, player turn);
   Node(){};
   void print_state();
   pair<int, int> get_next_best_move();

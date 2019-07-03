@@ -1,8 +1,8 @@
 #include "GameTree.h"
 
-Node::Node(GameState state, players turn) {
+Node::Node(GameState state, player turn) {
   this->state = state;
-  this->player = turn;
+  this->turn = turn;
   this->is_max = turn == PLAYER_1;
 
   if (state.winner() == PLAYER_1) {
@@ -50,8 +50,8 @@ vector<Node> Node::generate_children() {
     // copy current state
     GameState child = this->state;
 
-    child.move(moves[i].first, moves[i].second, player);
-    Node node = Node(child, this->player == PLAYER_1 ? PLAYER_2 : PLAYER_1);
+    child.move(moves[i].first, moves[i].second, this->turn);
+    Node node = Node(child, this->turn == PLAYER_1 ? PLAYER_2 : PLAYER_1);
 
     // need this to be able to retrieve it later
     node.set_move(make_pair(moves[i].first, moves[i].second));

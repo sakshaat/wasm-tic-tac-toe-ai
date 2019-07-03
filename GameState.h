@@ -5,12 +5,11 @@
 
 using namespace std;
 
-enum players { PLAYER_1, PLAYER_2, NO_ONE };
-enum actor { PLAYER, AI };
+enum player { PLAYER_1, PLAYER_2, NO_ONE };
 
 class GameState {
  private:
-  array<array<players, 3>, 3> state;
+  array<array<player, 3>, 3> state;
   int empty_spots;
 
  public:
@@ -19,8 +18,8 @@ class GameState {
   void print_state();
 
   bool empty_tile(int x, int y);
-  players winner();
-  void move(int x, int y, players t);
+  player winner();
+  void move(int x, int y, player t);
   bool board_full();
   vector<pair<int, int>> get_empty_tiles();
 };

@@ -1,7 +1,7 @@
 #include "GameState.h"
 
 GameState::GameState() {
-  array<array<players, 3>, 3> empty_board;
+  array<array<player, 3>, 3> empty_board;
   for (int i = 0; i < 3; i++) {
     empty_board[i].fill(NO_ONE);
   }
@@ -14,7 +14,7 @@ GameState::GameState(const GameState &other) {
   this->empty_spots = other.empty_spots;
 }
 
-void GameState::move(int x, int y, players t) {
+void GameState::move(int x, int y, player t) {
   if (x > 2 || y > 2) {
     throw new out_of_range("x and y have to be between 0 - 2");
   }
@@ -30,11 +30,11 @@ void GameState::move(int x, int y, players t) {
 
 bool GameState::board_full() { return this->empty_spots == 0; }
 
-players GameState::winner() {
+player GameState::winner() {
   // horizontal
   for (int i = 0; i < 3; i++) {
-    array<players, 3> curr = state[i];
-    bool result = all_of(curr.begin(), curr.end(), [curr](players x) {
+    array<player, 3> curr = state[i];
+    bool result = all_of(curr.begin(), curr.end(), [curr](player x) {
       return x != NO_ONE && x == curr[0];
     });
     if (result) {
