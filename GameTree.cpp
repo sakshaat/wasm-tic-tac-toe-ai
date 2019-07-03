@@ -27,6 +27,8 @@ Node::Node(GameState state, players turn) {
 
 pair<int, int> Node::get_move() { return this->move; }
 
+pair<int, int> Node::get_next_best_move() { return this->best_child->move; }
+
 void Node::set_move(pair<int, int> move) { this->move = move; }
 
 vector<Node> Node::get_children() { return this->children; }

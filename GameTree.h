@@ -15,27 +15,17 @@ class Node {
   Node* best_child;
   pair<int, int> move;
   int score;
-
- public:
+  Node get_best_child();
+  vector<Node> get_children();
   bool is_max;
   int get_score();
+
+ public:
   Node(GameState state, players turn);
   Node(){};
   void print_state();
-  Node get_best_child();
-  pair<int, int> get_move();
+  pair<int, int> get_next_best_move();
   void set_move(pair<int, int> move);
-
-  vector<Node> get_children();
+  pair<int, int> get_move();
   bool operator<(const Node& other) const { return this->score < other.score; }
-};
-
-class GameTree {
- private:
-  Node root;
-  void construct_tree();
-
- public:
-  void next_move();
-  GameTree(GameState state);
 };
