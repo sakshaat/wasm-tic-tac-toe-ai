@@ -2,6 +2,10 @@
 
 using namespace std;
 
+// a future optimization strategy could involve first constructing the entire
+// tree and then using it to save game state rather than computing the tree each
+// time
+
 class Node {
  private:
   GameState state;

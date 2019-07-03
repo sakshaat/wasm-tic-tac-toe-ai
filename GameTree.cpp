@@ -4,7 +4,6 @@ Node::Node(GameState state, players turn) {
   this->state = state;
   this->player = turn;
   this->is_max = turn == PLAYER_1;
-  this->best_child = new Node();
 
   if (state.winner() == PLAYER_1) {
     this->score = 10;
@@ -18,7 +17,6 @@ Node::Node(GameState state, players turn) {
     if (is_max) {
       this->best_child =
           max_element(this->children.begin(), this->children.end()).base();
-
     } else {
       this->best_child =
           min_element(this->children.begin(), this->children.end()).base();

@@ -1,3 +1,4 @@
+#include <emscripten/emscripten.h>
 #include "GameTree.h"
 
 class GameRunner {
@@ -60,26 +61,23 @@ pair<int, int> get_user_input() {
 
 pair<int, int> GameRunner::calculate_ai_move() {
   // make current node
-  Node node = Node(this->state, this->turn);
-  node.print_state();
+  // Node node = Node(this->state, this->turn);
+  // node.print_state();
 
   // debug
-  vector<Node> children = node.get_children();
-  for (size_t i = 0; i < children.size(); i++) {
-    pair<int, int> move = children[i].get_move();
-    cout << "move is (" << move.first << ", " << move.second << ")" << endl;
-    cout << "score is " << children[i].get_score() << endl;
-    children[i].print_state();
-  }
+  // vector<Node> children = node.get_children();
+  // for (size_t i = 0; i < children.size(); i++) {
+  //   pair<int, int> move = children[i].get_move();
+  //   cout << "move is (" << move.first << ", " << move.second << ")" << endl;
+  //   cout << "score is " << children[i].get_score() << endl;
+  // }
 
   // get best child
-  pair<int, int> next_move = node.get_best_child().get_move();
+  return Node(this->state, this->turn).get_best_child().get_move();
 
   // debug
-  cout << "selected pair is (" << next_move.first << ", " << next_move.second
-       << ")" << endl;
-
-  return next_move;
+  // cout << "selected pair is (" << next_move.first << ", " << next_move.second
+  //      << ")" << endl;
 }
 
 pair<int, int> GameRunner::get_next_move() {
