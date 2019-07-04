@@ -1,22 +1,4 @@
-#include <emscripten/emscripten.h>
-#include "GameTree.h"
-
-class GameRunner {
- private:
-  GameState state;
-  player turn;
-  Node head;
-  pair<int, int> calculate_ai_move();
-  void switch_turn();
-
- public:
-  bool has_game_ended();
-  void make_move(int x, int y);
-  void print_state();
-  player winner();
-  GameRunner();
-  void make_ai_move();
-};
+#include "GameRunner.h"
 
 GameRunner::GameRunner() {
   state = GameState();
@@ -42,7 +24,7 @@ bool GameRunner::has_game_ended() {
 void GameRunner::print_state() { this->state.print_state(); }
 
 void GameRunner::make_move(int x, int y) {
-  printf("The move is %d %d\n", x, y);
+  cout << "The move is " << x << " " << y << endl;
   try {
     state.move(x, y, this->turn);
   } catch (invalid_argument *e) {
@@ -72,43 +54,4 @@ void GameRunner::make_ai_move() {
   this->make_move(move.first, move.second);
 }
 
-static GameRunner current_game;
-
-extern "C" {
-void EMSCRIPTEN_KEEPALIVE make_ai_move() { current_game.make_ai_move(); }
-
-void EMSCRIPTEN_KEEPALIVE make_player_move(int x, int y) {
-  current_game.make_move(x, y);
-}
-
-void EMSCRIPTEN_KEEPALIVE print_state() { current_game.print_state(); }
-
-bool EMSCRIPTEN_KEEPALIVE has_game_ended() {
-  return current_game.has_game_ended();
-}
-}
-
-int main() {
-  current_game = GameRunner();
-  // testing
-  // runner.make_move(2, 0);
-  // runner.make_move(0, 0);
-  // runner.make_move(1, 2);
-  // runner.make_move(0, 1);
-  // runner.make_move(1, 1);
-  // runner.make_move(0, 2);
-  // runner.make_move(2, 2);
-  // runner.make_move(2, 1);
-  current_game.print_state();
-
-  // switch (current_game.winner()) {
-  //   case PLAYER_1:
-  //     cout << 'X' << " Wins!" << endl;
-  //     break;
-  //   case PLAYER_2:
-  //     cout << 'O' << " Wins!" << endl;
-  //     break;
-  //   case NO_ONE:
-  //     cout << "TIE GAME" << endl;
-  // }
-}
+uint8_t *GameRunner::board_as_arr() { return this->state.board_as_arr(); }

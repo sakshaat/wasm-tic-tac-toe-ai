@@ -1,11 +1,10 @@
 #include <array>
 #include <iostream>
-#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
-enum player { PLAYER_1, PLAYER_2, NO_ONE };
+enum player { NO_ONE, PLAYER_1, PLAYER_2 };
 
 class GameState {
  private:
@@ -14,7 +13,7 @@ class GameState {
 
  public:
   GameState();
-  GameState(const GameState &other);
+  GameState(const GameState& other);
   void print_state();
 
   bool empty_tile(int x, int y);
@@ -22,4 +21,5 @@ class GameState {
   void move(int x, int y, player t);
   bool board_full();
   vector<pair<int, int>> get_empty_tiles();
+  uint8_t* board_as_arr();
 };

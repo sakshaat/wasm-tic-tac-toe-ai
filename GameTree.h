@@ -12,13 +12,10 @@ class Node {
   player turn;
   vector<Node> children;
   vector<Node> generate_children();
-  Node* best_child;
   pair<int, int> move;
   int score;
-  Node get_best_child();
-  vector<Node> get_children();
   bool is_max;
-  int get_score();
+  pair<int, int> next_best_move;
 
  public:
   Node(GameState state, player turn);

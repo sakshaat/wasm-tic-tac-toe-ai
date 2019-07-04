@@ -9,7 +9,7 @@ GameState::GameState() {
   empty_spots = 9;
 }
 
-GameState::GameState(const GameState &other) {
+GameState::GameState(const GameState& other) {
   this->state = other.state;
   this->empty_spots = other.empty_spots;
 }
@@ -89,6 +89,18 @@ void GameState::print_state() {
     cout << '\n';
   }
 }
+
+uint8_t* GameState::board_as_arr() {
+  uint8_t* result = (uint8_t*)malloc(9 * sizeof(uint8_t));
+  uint8_t idx = 0;
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      result[idx] = this->state[j][i];
+      idx++;
+    }
+  }
+  return result;
+};
 
 vector<pair<int, int>> GameState::get_empty_tiles() {
   if (this->board_full()) {
