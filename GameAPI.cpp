@@ -45,6 +45,10 @@ EMSCRIPTEN_BINDINGS(my_module) {
   emscripten::function("make_ai_move", &make_ai_move);
   emscripten::function("make_player_move", &make_player_move);
   emscripten::function("get_winner", &get_winner);
+  emscripten::enum_<player>("player")
+      .value("NO_ONE", NO_ONE)
+      .value("PLAYER_1", PLAYER_1)
+      .value("PLAYER_2", PLAYER_2);
 }
 
 int main() { current_game = GameRunner(); }
