@@ -34,3 +34,9 @@ body {
   background-color: grey;
   cursor: pointer;
 }
+
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

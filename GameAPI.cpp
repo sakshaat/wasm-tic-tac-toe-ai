@@ -34,6 +34,8 @@ void make_player_move(int idx) {
   current_game.make_move(x, y);
 }
 
+int get_winner() { return current_game.winner(); }
+
 EMSCRIPTEN_BINDINGS(my_module) {
   emscripten::function("start_new_game", &start_new_game);
   emscripten::function("get_gameboard", &get_gameboard);
@@ -42,6 +44,7 @@ EMSCRIPTEN_BINDINGS(my_module) {
   emscripten::function("print_state", &print_state);
   emscripten::function("make_ai_move", &make_ai_move);
   emscripten::function("make_player_move", &make_player_move);
+  emscripten::function("get_winner", &get_winner);
 }
 
 int main() { current_game = GameRunner(); }

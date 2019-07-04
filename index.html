@@ -14,18 +14,22 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1 id="winner-header">fdsfs</h1>
     <div class="game-container">
       <div class="cell-container">
-        <div data-value="0" id="cell-0" class="cell empty-cell"></div>
-        <div data-value="1" id="cell-1" class="cell empty-cell"></div>
-        <div data-value="2" id="cell-2" class="cell empty-cell"></div>
-        <div data-value="3" id="cell-3" class="cell empty-cell"></div>
-        <div data-value="4" id="cell-4" class="cell empty-cell"></div>
-        <div data-value="5" id="cell-5" class="cell empty-cell"></div>
-        <div data-value="6" id="cell-6" class="cell empty-cell"></div>
-        <div data-value="7" id="cell-7" class="cell empty-cell"></div>
-        <div data-value="8" id="cell-8" class="cell empty-cell"></div>
+        <div data-value="0" id="cell-0" class="cell"></div>
+        <div data-value="1" id="cell-1" class="cell"></div>
+        <div data-value="2" id="cell-2" class="cell"></div>
+        <div data-value="3" id="cell-3" class="cell"></div>
+        <div data-value="4" id="cell-4" class="cell"></div>
+        <div data-value="5" id="cell-5" class="cell"></div>
+        <div data-value="6" id="cell-6" class="cell"></div>
+        <div data-value="7" id="cell-7" class="cell"></div>
+        <div data-value="8" id="cell-8" class="cell"></div>
       </div>
+    </div>
+    <div>
+      <button id="new-game-btn">New Game</button>
     </div>
 
     <script src="./main.js"></script>
@@ -36,30 +40,71 @@
         2: "O"
       };
 
-      updateBoard = () => {
+      let cellClickHandler = e => {
+        Module.make_player_move(parseInt(e.target.getAttribute("data-value")));
+        updateBoard();
+        Module.make_ai_move();
+        updateBoard();
+      };
+
+      let makeUnclickable = elem => {
+        elem.classList.remove("empty-cell");
+        elem.removeEventListener("click", cellClickHandler);
+      };
+
+      let gameEnded = () => {
+        // make everything unclickable
+        document.querySelectorAll(".empty-cell").forEach(makeUnclickable);
+
+        // change winner header
+        let winner = Module.get_winner();
+        let title;
+        if (winner === 0) {
+          title = "Tie Game!";
+        } else if (winner == 1) {
+          title == "X Wins!";
+        } else {
+          title = "O Wins!";
+        }
+        document.querySelector("#winner-header").innerHTML = title;
+      };
+
+      let updateBoard = () => {
         let board = Module.get_gameboard();
         for (let i = 0; i < 9; i++) {
           let elem = document.querySelector(`#cell-${i}`);
           elem.innerHTML = symbol[board[i]];
           if (board[i] !== 0) {
-            elem.classList.remove("empty-cell");
+            makeUnclickable(elem);
           }
+        }
+
+        if (Module.has_game_ended()) {
+          gameEnded();
         }
       };
 
+      startNewGame = () => {
+        document.querySelector("#winner-header").innerHTML = "";
+        Module.start_new_game();
+
+        // reset
+        document.querySelectorAll(".cell").forEach(elem => {
+          elem.classList.add("empty-cell");
+          elem.addEventListener("click", cellClickHandler);
+        });
+
+        updateBoard();
+      };
+
       Module.onRuntimeInitialized = () => {
-        // player move
-        document.querySelectorAll(".empty-cell").forEach(input =>
-          input.addEventListener("click", () => {
-            Module.make_player_move(parseInt(input.getAttribute("data-value")));
-            updateBoard();
-            Module.make_ai_move();
-            updateBoard();
-          })
-        );
+        // new game btn listener
+        document
+          .querySelector("#new-game-btn")
+          .addEventListener("click", startNewGame);
 
         // update the board
-        updateBoard();
+        startNewGame();
       };
     </script>
   </body>
