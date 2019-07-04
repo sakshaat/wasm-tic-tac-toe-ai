@@ -53,6 +53,8 @@
           input.addEventListener("click", () => {
             Module.make_player_move(parseInt(input.getAttribute("data-value")));
             updateBoard();
+            Module.make_ai_move();
+            updateBoard();
           })
         );
 
