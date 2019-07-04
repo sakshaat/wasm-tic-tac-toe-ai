@@ -11,16 +11,54 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
+    <div class="game-container">
+      <div class="cell-container">
+        <div data-value="0" id="cell-0" class="cell empty-cell"></div>
+        <div data-value="1" id="cell-1" class="cell empty-cell"></div>
+        <div data-value="2" id="cell-2" class="cell empty-cell"></div>
+        <div data-value="3" id="cell-3" class="cell empty-cell"></div>
+        <div data-value="4" id="cell-4" class="cell empty-cell"></div>
+        <div data-value="5" id="cell-5" class="cell empty-cell"></div>
+        <div data-value="6" id="cell-6" class="cell empty-cell"></div>
+        <div data-value="7" id="cell-7" class="cell empty-cell"></div>
+        <div data-value="8" id="cell-8" class="cell empty-cell"></div>
+      </div>
+    </div>
 
     <script src="./main.js"></script>
+    <script>
+      let symbol = {
+        0: "",
+        1: "X",
+        2: "O"
+      };
+
+      updateBoard = () => {
+        let board = Module.get_gameboard();
+        for (let i = 0; i < 9; i++) {
+          let elem = document.querySelector(`#cell-${i}`);
+          elem.innerHTML = symbol[board[i]];
+          if (board[i] !== 0) {
+            elem.classList.remove("empty-cell");
+          }
+        }
+      };
+
+      Module.onRuntimeInitialized = () => {
+        // player move
+        document.querySelectorAll(".empty-cell").forEach(input =>
+          input.addEventListener("click", () => {
+            Module.make_player_move(parseInt(input.getAttribute("data-value")));
+            updateBoard();
+          })
+        );
+
+        // update the board
+        updateBoard();
+      };
+    </script>
   </body>
 </html>

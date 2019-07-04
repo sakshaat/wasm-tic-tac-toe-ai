@@ -6,7 +6,7 @@ using namespace emscripten;
 
 static GameRunner current_game;
 
-val get_gameboard_as_arr() {
+val get_gameboard() {
   uint8_t* board = current_game.board_as_arr();
   val ret = val(typed_memory_view(9 * sizeof(uint8_t), board));
   free(board);
@@ -28,11 +28,15 @@ bool has_game_ended() { return current_game.has_game_ended(); }
 
 void make_ai_move() { current_game.make_ai_move(); }
 
-void make_player_move(int x, int y) { current_game.make_move(x, y); }
+void make_player_move(int idx) {
+  int x = idx / 3;
+  int y = idx % 3;
+  current_game.make_move(x, y);
+}
 
 EMSCRIPTEN_BINDINGS(my_module) {
   emscripten::function("start_new_game", &start_new_game);
-  emscripten::function("test", &get_gameboard_as_arr);
+  emscripten::function("get_gameboard", &get_gameboard);
   emscripten::function("game_result", &game_result);
   emscripten::function("has_game_ended", &has_game_ended);
   emscripten::function("print_state", &print_state);

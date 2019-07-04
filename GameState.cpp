@@ -1,5 +1,6 @@
 #include "GameState.h"
 
+// Maybe use an array
 GameState::GameState() {
   array<array<player, 3>, 3> empty_board;
   for (int i = 0; i < 3; i++) {

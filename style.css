@@ -1,0 +1,36 @@
+.game-container {
+  height: 30rem;
+  width: 30rem;
+  background-color: black;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.cell-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 5px 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.cell {
+  color: black;
+  background-color: white;
+  font-size: 5rem;
+  text-align: center;
+  padding: 15%;
+  transition: background-color 0.2s ease;
+  border: 10px solid white;
+}
+
+.empty-cell:hover {
+  background-color: grey;
+  cursor: pointer;
+}
