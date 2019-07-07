@@ -1,17 +1,15 @@
-CC=clang++
-CFLAGS=-stdlib=libc++ -std=c++11 -g -Wall -Werror -Wextra -I.
-WEBASSMFLAGS=--bind -O3 -s WASM=1 -s NO_EXIT_RUNTIME=1  -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1 -std=c++11
+CPP_PATH=./cpp/
 
 all: main
 
 main: GameRunner.cpp GameState.cpp GameTree.cpp
-	$(CC) $(CFLAGS) -o main.o GameRunner.cpp GameState.cpp GameTree.cpp
+	$(MAKE) -C $(CPP_PATH) main
 
 clean:
-	rm *.out *.o &> /dev/null
+	$(MAKE) -C $(CPP_PATH) clean
 
 run: main
-	./main.o
+	$(MAKE) -C $(CPP_PATH) run
 
 wasm:
-	emcc GameAPI.cpp GameRunner.cpp GameTree.cpp GameState.cpp -o main.js $(WEBASSMFLAGS)
+	$(MAKE) -C $(CPP_PATH) wasm
