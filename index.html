@@ -11,101 +11,48 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+      integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1 id="winner-header"></h1>
-    <div class="game-container">
-      <div class="cell-container">
-        <div data-value="0" id="cell-0" class="cell"></div>
-        <div data-value="1" id="cell-1" class="cell"></div>
-        <div data-value="2" id="cell-2" class="cell"></div>
-        <div data-value="3" id="cell-3" class="cell"></div>
-        <div data-value="4" id="cell-4" class="cell"></div>
-        <div data-value="5" id="cell-5" class="cell"></div>
-        <div data-value="6" id="cell-6" class="cell"></div>
-        <div data-value="7" id="cell-7" class="cell"></div>
-        <div data-value="8" id="cell-8" class="cell"></div>
+    <h1>WASM MiniMax Tic Tac Toe AI</h1>
+    <section>
+      <div class="game-container">
+        <div class="cell-container">
+          <div data-value="0" id="cell-0" class="cell"></div>
+          <div data-value="1" id="cell-1" class="cell"></div>
+          <div data-value="2" id="cell-2" class="cell"></div>
+          <div data-value="3" id="cell-3" class="cell"></div>
+          <div data-value="4" id="cell-4" class="cell"></div>
+          <div data-value="5" id="cell-5" class="cell"></div>
+          <div data-value="6" id="cell-6" class="cell"></div>
+          <div data-value="7" id="cell-7" class="cell"></div>
+          <div data-value="8" id="cell-8" class="cell"></div>
+        </div>
       </div>
-    </div>
-    <div>
-      <button id="new-game-btn">New Game</button>
+
+      <div class="container">
+        <button id="new-game-btn" class="pure-button button-large">
+          New Game
+        </button>
+      </div>
+      <div class="container">
+        <h2 id="winner-header"></h2>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span id="copyright"
+        >Copyright © 2019 Sakshaat Choyikandi. All Rights Reserved.</span
+      >
     </div>
 
     <script src="./main.js"></script>
-    <script>
-      let symbol = {
-        0: "",
-        1: "X",
-        2: "O"
-      };
-
-      let cellClickHandler = e => {
-        Module.make_player_move(parseInt(e.target.getAttribute("data-value")));
-        updateBoard();
-        Module.make_ai_move();
-        updateBoard();
-      };
-
-      let makeUnclickable = elem => {
-        elem.classList.remove("empty-cell");
-        elem.removeEventListener("click", cellClickHandler);
-      };
-
-      let gameEnded = () => {
-        // make everything unclickable
-        document.querySelectorAll(".empty-cell").forEach(makeUnclickable);
-
-        // change winner header
-        let winner = Module.get_winner();
-        let title;
-        if (winner === 0) {
-          title = "Tie Game!";
-        } else if (winner == 1) {
-          title == "X Wins!";
-        } else {
-          title = "O Wins!";
-        }
-        document.querySelector("#winner-header").innerHTML = title;
-      };
-
-      let updateBoard = () => {
-        let board = Module.get_gameboard();
-        for (let i = 0; i < 9; i++) {
-          let elem = document.querySelector(`#cell-${i}`);
-          elem.innerHTML = symbol[board[i]];
-          if (board[i] !== Module.player.NO_ONE.value) {
-            makeUnclickable(elem);
-          }
-        }
-
-        if (Module.has_game_ended()) {
-          gameEnded();
-        }
-      };
-
-      startNewGame = () => {
-        document.querySelector("#winner-header").innerHTML = "";
-        Module.start_new_game();
-
-        // reset
-        document.querySelectorAll(".cell").forEach(elem => {
-          elem.classList.add("empty-cell");
-          elem.addEventListener("click", cellClickHandler);
-        });
-
-        updateBoard();
-      };
-
-      Module.onRuntimeInitialized = () => {
-        // new game btn listener
-        document
-          .querySelector("#new-game-btn")
-          .addEventListener("click", startNewGame);
-
-        // update the board
-        startNewGame();
-      };
-    </script>
+    <script src="./game.js"></script>
   </body>
 </html>

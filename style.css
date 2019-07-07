@@ -1,16 +1,45 @@
 .game-container {
   height: 85vw;
   width: 85vw;
-  max-width: 35rem;
-  max-height: 35rem;
-  background-color: white;
+  max-width: 30rem;
+  max-height: 30rem;
+}
+
+.game-container h1 {
+  text-align: center;
 }
 
 body {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
+  flex-direction: column;
+  width: 100%;
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  text-align: center;
+}
+
+#new-game-btn {
+  width: 50%;
+  margin: 10px;
+}
+
+.footer {
+  width: 100%;
+  text-align: left;
+  background-color: rgb(37, 37, 37);
+  padding: 5px;
+  color: whitesmoke;
+}
+
+#copyright {
+  padding-left: 5px;
 }
 
 .cell-container {
@@ -20,7 +49,6 @@ body {
   grid-gap: 3px 3px;
   height: 100%;
   width: 100%;
-  overflow: hidden;
   background-color: black;
 }
 
@@ -46,10 +74,4 @@ body {
 
 .empty-cell:hover {
   background-color: #ffe677;
-}
-
-body {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }

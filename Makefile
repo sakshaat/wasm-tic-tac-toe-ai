@@ -4,8 +4,8 @@ WEBASSMFLAGS=--bind -O3 -s WASM=1 -s NO_EXIT_RUNTIME=1  -s ASSERTIONS=1 -s ALLOW
 
 all: main
 
-main: GameAPI.cpp GameRunner.cpp GameState.cpp GameTree.cpp
-	$(CC) $(CFLAGS) -o main.o GameAPI.cpp GameRunner.cpp GameState.cpp GameTree.cpp
+main: GameRunner.cpp GameState.cpp GameTree.cpp
+	$(CC) $(CFLAGS) -o main.o GameRunner.cpp GameState.cpp GameTree.cpp
 
 clean:
 	rm *.out *.o &> /dev/null
