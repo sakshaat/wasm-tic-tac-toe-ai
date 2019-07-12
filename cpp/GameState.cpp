@@ -90,16 +90,14 @@ void GameState::print_state() {
   }
 }
 
-uint8_t* GameState::board_as_arr() {
-  uint8_t* result = (uint8_t*)malloc(9 * sizeof(uint8_t));
+void GameState::board_as_arr(uint8_t* board) {
   uint8_t idx = 0;
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      result[idx] = this->state[j][i];
+      board[idx] = this->state[j][i];
       idx++;
     }
   }
-  return result;
 };
 
 vector<pair<int, int>> GameState::get_empty_tiles() {

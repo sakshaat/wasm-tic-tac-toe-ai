@@ -21,5 +21,5 @@ class GameState {
   void move(int x, int y, player t);
   bool board_full();
   vector<pair<int, int>> get_empty_tiles();
-  uint8_t* board_as_arr();
+  void board_as_arr(uint8_t* board);
 };

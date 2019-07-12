@@ -7,7 +7,8 @@ using namespace emscripten;
 static GameRunner current_game;
 
 val get_gameboard() {
-  uint8_t* board = current_game.board_as_arr();
+  uint8_t* board = (uint8_t*)malloc(9 * sizeof(sizeof(uint8_t)));
+  current_game.board_as_arr(board);
   val ret = val(typed_memory_view(9 * sizeof(uint8_t), board));
   free(board);
   return ret;

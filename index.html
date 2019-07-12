@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+      integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="public/style.css" />
+  </head>
+  <body>
+    <h1>WASM MiniMax Tic Tac Toe AI</h1>
+    <section>
+      <div class="game-container">
+        <div class="cell-container">
+          <div data-value="0" id="cell-0" class="cell"></div>
+          <div data-value="1" id="cell-1" class="cell"></div>
+          <div data-value="2" id="cell-2" class="cell"></div>
+          <div data-value="3" id="cell-3" class="cell"></div>
+          <div data-value="4" id="cell-4" class="cell"></div>
+          <div data-value="5" id="cell-5" class="cell"></div>
+          <div data-value="6" id="cell-6" class="cell"></div>
+          <div data-value="7" id="cell-7" class="cell"></div>
+          <div data-value="8" id="cell-8" class="cell"></div>
+        </div>
+      </div>
+
+      <div class="container">
+        <button id="new-game-btn" class="pure-button button-large">
+          New Game
+        </button>
+      </div>
+      <div class="container">
+        <h2 id="winner-header"></h2>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span id="copyright"
+        >Copyright © 2019 Sakshaat Choyikandi. All Rights Reserved.</span
+      >
+    </div>
+
+    <script src="public/main.js"></script>
+    <script src="public/game.js"></script>
+  </body>
+</html>

@@ -54,4 +54,6 @@ void GameRunner::make_ai_move() {
   this->make_move(move.first, move.second);
 }
 
-uint8_t *GameRunner::board_as_arr() { return this->state.board_as_arr(); }
+void GameRunner::board_as_arr(uint8_t *board) {
+  this->state.board_as_arr(board);
+}

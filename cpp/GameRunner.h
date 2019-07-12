@@ -14,5 +14,5 @@ class GameRunner {
   player winner();
   GameRunner();
   void make_ai_move();
-  uint8_t* board_as_arr();
+  void board_as_arr(uint8_t* board);
 };
