@@ -1,6 +1,6 @@
 // #include <emscripten/emscripten.h>
 #include <emscripten/bind.h>
-#include "GameRunner.h"
+#include "game_runner.h"
 
 using namespace emscripten;
 

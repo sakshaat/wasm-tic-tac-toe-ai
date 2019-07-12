@@ -5,8 +5,8 @@ CPP_PATH=./cpp/
 
 all: main
 
-main: GameRunner.cpp GameState.cpp GameTree.cpp
-	$(CC) $(CFLAGS) -o main.o GameRunner.cpp GameState.cpp GameTree.cpp
+main: game_runner.cpp game_state.cpp game_tree.cpp
+	$(CC) $(CFLAGS) -o main.o game_runner.cpp game_state.cpp game_tree.cpp
 
 clean:
 	rm *.out *.o &> /dev/null
@@ -15,4 +15,4 @@ run: main
 	./main.o
 
 wasm:
-	emcc GameAPI.cpp GameRunner.cpp GameTree.cpp GameState.cpp -o ../public/main.js $(WEBASSMFLAGS)
+	emcc game_api.cpp game_runner.cpp game_tree.cpp game_state.cpp -o ../public/main.js $(WEBASSMFLAGS)

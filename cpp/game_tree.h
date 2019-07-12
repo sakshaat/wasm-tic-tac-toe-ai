@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "game_state.h"
 
 using namespace std;
 

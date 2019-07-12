@@ -1,4 +1,4 @@
-#include "GameRunner.h"
+#include "game_runner.h"
 
 GameRunner::GameRunner() {
   state = GameState();

@@ -1,4 +1,4 @@
-#include "GameTree.h"
+#include "game_tree.h"
 
 class GameRunner {
  private:

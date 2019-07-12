@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "game_state.h"
 
 GameState::GameState() {
   array<array<player, 3>, 3> empty_board;

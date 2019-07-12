@@ -1,4 +1,4 @@
-#include "GameTree.h"
+#include "game_tree.h"
 
 Node::Node(GameState state, player turn) {
   this->state = state;
